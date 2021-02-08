@@ -1,6 +1,7 @@
 import React from 'react'
 import Products from './components/Products';
 import data from './data.json'
+import Cart from './components/Cart'
 
 
 class App extends React.Component {
@@ -16,7 +17,7 @@ class App extends React.Component {
   addToCart = (product) => {
     const cartItems=this.state.cartItems.slice();
     let alreadyInCart = false;
-    cartitems.forEach((item) => {
+    cartItems.forEach((item) => {
     if(item._id === product._id){
       item.count++;
       alreadyInCart = true;
@@ -25,7 +26,8 @@ class App extends React.Component {
   if (!alreadyInCart){
     cartItems.push({...product, count: 1});
   }
-  }
+  this.setState({cartItems});
+  };
   render() {
     return (
       <div className="grid-container">
@@ -35,9 +37,11 @@ class App extends React.Component {
         <main>
           <div className="content">
             <div className="main">
-              <Products products={this.state.products}></Products>
+              <Products products={this.state.products} addToCart={this.addToCart}></Products>
             </div>
-            <div className="sidebar">Cart Item</div>
+            <div className="sidebar">
+              <Cart  cartItems={this.state.cartItems} />
+            </div>
           </div>
           
         </main>
